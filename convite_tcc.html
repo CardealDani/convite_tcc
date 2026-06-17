@@ -1,0 +1,798 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Convite — Defesa de TCC · Daniel Cardeal</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --blue: #2563eb;
+        --blue-light: #3b82f6;
+        --blue-pale: #eff6ff;
+        --dark: #1e293b;
+        --mid: #475569;
+        --muted: #94a3b8;
+        --surface: #f8fafc;
+        --white: #ffffff;
+        --green: #10b981;
+        --green-pale: #ecfdf5;
+        --green-dark: #065f46;
+        --radius-sm: 12px;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: #e2e8f0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 32px 16px 48px;
+        color: var(--dark);
+      }
+
+      /* ── TELAS ── */
+      .screen {
+        display: none;
+        width: 100%;
+        max-width: 560px;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+      }
+      .screen.active {
+        display: flex;
+        animation: fadeUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+      }
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ── CARD ── */
+      .card {
+        width: 100%;
+        background: var(--white);
+        border-radius: 22px;
+        box-shadow:
+          0 4px 6px rgba(0, 0, 0, 0.04),
+          0 24px 56px rgba(37, 99, 235, 0.11);
+        overflow: hidden;
+        margin-bottom: 14px;
+      }
+      .card-bar {
+        height: 5px;
+        background: linear-gradient(
+          90deg,
+          var(--blue) 0%,
+          var(--blue-light) 100%
+        );
+      }
+      .card-body {
+        padding: clamp(22px, 6vw, 36px);
+      }
+
+      /* ── HERO HEADER ── */
+      .hero {
+        text-align: center;
+        margin-bottom: 28px;
+      }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--blue);
+        text-transform: uppercase;
+        letter-spacing: 0.13em;
+        margin-bottom: 16px;
+      }
+      .eyebrow::before,
+      .eyebrow::after {
+        content: "";
+        display: block;
+        width: 18px;
+        height: 1.5px;
+        background: var(--blue);
+        border-radius: 2px;
+      }
+      .hero-title {
+        font-size: clamp(26px, 7vw, 38px);
+        font-weight: 800;
+        color: var(--dark);
+        line-height: 1.15;
+        margin-bottom: 6px;
+      }
+      .hero-title span {
+        color: var(--blue);
+      }
+      .hero-sub {
+        font-size: clamp(12px, 3.5vw, 13px);
+        color: var(--muted);
+        font-weight: 500;
+        line-height: 1.5;
+      }
+
+      /* ── TEMA TCC ── */
+      .tcc-box {
+        background: var(--blue-pale);
+        border: 1.5px solid #dbeafe;
+        border-radius: var(--radius-sm);
+        padding: 14px 18px;
+        margin-bottom: 22px;
+      }
+      .tcc-label {
+        font-size: 9.5px;
+        font-weight: 700;
+        color: var(--blue);
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        margin-bottom: 6px;
+      }
+      .tcc-title {
+        font-size: clamp(11.5px, 3vw, 13px);
+        font-weight: 600;
+        color: var(--dark);
+        line-height: 1.55;
+      }
+
+      /* ── EVENT INFO ── */
+      .event-info {
+        background: var(--surface);
+        border-radius: var(--radius-sm);
+        padding: 16px 18px;
+        margin-bottom: 26px;
+        border: 1px solid #e2e8f0;
+      }
+      .event-info-label {
+        font-size: 9.5px;
+        font-weight: 700;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 14px;
+      }
+      .event-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 11px;
+        margin-bottom: 10px;
+      }
+      .event-row:last-child {
+        margin-bottom: 0;
+      }
+      .event-icon {
+        width: 32px;
+        height: 32px;
+        background: var(--blue-pale);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        flex-shrink: 0;
+      }
+      .event-col {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .event-label-text {
+        font-size: 10px;
+        color: var(--muted);
+        font-weight: 500;
+        margin-bottom: 1px;
+      }
+      .event-value {
+        font-size: clamp(12px, 3.5vw, 13.5px);
+        font-weight: 500;
+        color: var(--dark);
+        line-height: 1.4;
+      }
+
+      /* ── NOTE ── */
+      .note {
+        background: #fffbeb;
+        border: 1px solid #fde68a;
+        border-radius: var(--radius-sm);
+        padding: 13px 16px;
+        font-size: 13px;
+        color: #92400e;
+        line-height: 1.6;
+        margin-bottom: 26px;
+      }
+
+      /* ── DIVIDER ── */
+      .divider {
+        height: 1px;
+        background: #f1f5f9;
+        margin-bottom: 22px;
+      }
+
+      /* ── FORM ── */
+      .form-label {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--dark);
+        margin-bottom: 8px;
+        display: block;
+      }
+      .form-group {
+        margin-bottom: 14px;
+      }
+      .input-wrap input {
+        width: 100%;
+        height: 50px;
+        border: 1.5px solid #e2e8f0;
+        border-radius: var(--radius-sm);
+        padding: 0 16px;
+        font-size: 16px;
+        font-family: "Inter", sans-serif;
+        color: var(--dark);
+        background: var(--white);
+        outline: none;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+        -webkit-appearance: none;
+      }
+      .input-wrap input:focus {
+        border-color: var(--blue);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      }
+      .input-wrap input::placeholder {
+        color: var(--muted);
+      }
+
+      /* ── BOTÕES ── */
+      .btn {
+        width: 100%;
+        height: 52px;
+        border: none;
+        border-radius: var(--radius-sm);
+        font-size: 15px;
+        font-weight: 700;
+        font-family: "Inter", sans-serif;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition:
+          opacity 0.2s,
+          transform 0.15s;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+        letter-spacing: 0.01em;
+      }
+      .btn:active {
+        transform: scale(0.98);
+      }
+      .btn-primary {
+        background: linear-gradient(
+          135deg,
+          var(--blue) 0%,
+          var(--blue-light) 100%
+        );
+        color: white;
+        margin-bottom: 10px;
+      }
+      .btn-primary:hover {
+        opacity: 0.91;
+      }
+      .btn-secondary {
+        background: var(--surface);
+        color: var(--mid);
+        border: 1.5px solid #e2e8f0;
+        font-size: 14px;
+        height: 46px;
+      }
+      .btn-secondary:hover {
+        background: #f1f5f9;
+      }
+      .btn.loading {
+        opacity: 0.7;
+        pointer-events: none;
+      }
+
+      .spinner {
+        width: 18px;
+        height: 18px;
+        border: 2.5px solid rgba(255, 255, 255, 0.35);
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 0.7s linear infinite;
+        display: none;
+      }
+      .btn.loading .spinner {
+        display: block;
+      }
+      .btn.loading .btn-label {
+        display: none;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* ── TELA 2: CONFIRMADO ── */
+      .confirm-card {
+        width: 100%;
+        background: var(--white);
+        border-radius: 22px;
+        box-shadow:
+          0 4px 6px rgba(0, 0, 0, 0.04),
+          0 24px 56px rgba(16, 185, 129, 0.12);
+        overflow: hidden;
+        text-align: center;
+      }
+      .confirm-bar {
+        height: 5px;
+        background: linear-gradient(90deg, var(--green) 0%, #34d399 100%);
+      }
+      .confirm-body {
+        padding: clamp(32px, 8vw, 52px) clamp(22px, 6vw, 40px);
+      }
+      .confirm-emoji {
+        font-size: 56px;
+        margin-bottom: 16px;
+        display: block;
+        animation: pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+      }
+      @keyframes pop {
+        from {
+          transform: scale(0.4);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      .confirm-title {
+        font-size: clamp(22px, 6vw, 30px);
+        font-weight: 800;
+        color: var(--dark);
+        margin-bottom: 8px;
+        line-height: 1.2;
+      }
+      .confirm-title span {
+        color: var(--green);
+      }
+      .confirm-name {
+        font-size: clamp(14px, 4vw, 16px);
+        color: var(--mid);
+        margin-bottom: 28px;
+        line-height: 1.5;
+      }
+
+      .confirm-info-box {
+        background: var(--green-pale);
+        border: 1.5px solid #a7f3d0;
+        border-radius: var(--radius-sm);
+        padding: 16px 20px;
+        margin-bottom: 28px;
+        text-align: left;
+      }
+      .confirm-info-title {
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--green);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 12px;
+      }
+      .confirm-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 8px;
+      }
+      .confirm-row:last-child {
+        margin-bottom: 0;
+      }
+      .confirm-icon {
+        width: 28px;
+        height: 28px;
+        background: white;
+        border-radius: 7px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        flex-shrink: 0;
+      }
+      .confirm-value {
+        font-size: clamp(11.5px, 3vw, 13px);
+        font-weight: 500;
+        color: var(--dark);
+        line-height: 1.45;
+      }
+      .confirm-sub-label {
+        font-size: 10px;
+        color: var(--muted);
+        display: block;
+        margin-bottom: 1px;
+      }
+
+      .confirm-note {
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.65;
+        margin-bottom: 28px;
+      }
+      .confirm-note strong {
+        color: var(--dark);
+        font-weight: 600;
+      }
+
+      /* ── FOOTER ── */
+      .page-footer {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 11.5px;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      /* ── TOAST ── */
+      .toast {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%) translateY(80px);
+        background: var(--dark);
+        color: white;
+        padding: 13px 22px;
+        border-radius: 40px;
+        font-size: 13px;
+        font-weight: 500;
+        transition:
+          transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+          opacity 0.35s;
+        opacity: 0;
+        z-index: 100;
+        max-width: calc(100vw - 32px);
+        text-align: center;
+        white-space: normal;
+      }
+      .toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
+
+      @media (max-width: 380px) {
+        .hero-title {
+          font-size: 22px;
+        }
+        .tcc-title {
+          font-size: 11px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ═══════════════════════════════════════
+     TELA 1 — CONVITE
+════════════════════════════════════════ -->
+    <div class="screen active" id="tela1">
+      <div class="card">
+        <div class="card-bar"></div>
+        <div class="card-body">
+          <div class="hero">
+            <div class="eyebrow">Você está convidado(a)</div>
+            <h1 class="hero-title">
+              Defesa de TCC<br /><span>Daniel Cardeal</span>
+            </h1>
+            <p class="hero-sub">Sistemas e Mídias Digitais · UFC</p>
+          </div>
+
+          <div class="tcc-box">
+            <div class="tcc-label">Tema do trabalho</div>
+            <div class="tcc-title">
+              Interface de Consulta Estruturada para Propriedades ADMET: Uma
+              Abordagem Baseada em Filtros Personalizáveis
+            </div>
+          </div>
+
+          <div class="event-info">
+            <div class="event-info-label">Detalhes do evento</div>
+            <div class="event-row">
+              <div class="event-icon">📅</div>
+              <div class="event-col">
+                <span class="event-label-text">Data</span>
+                <span class="event-value"
+                  >Segunda-feira, 06 de julho de 2026</span
+                >
+              </div>
+            </div>
+            <div class="event-row">
+              <div class="event-icon">🕕</div>
+              <div class="event-col">
+                <span class="event-label-text">Horário</span>
+                <span class="event-value">18h03</span>
+              </div>
+            </div>
+            <div class="event-row">
+              <div class="event-icon">📍</div>
+              <div class="event-col">
+                <span class="event-label-text">Local</span>
+                <span class="event-value"
+                  >Bloco de Sistemas e Mídias Digitais · UFC Campus do Pici ·
+                  Sala 01</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="note">
+            💬 Se não puder comparecer presencialmente, não se preocupe —
+            tentarei transmitir pelo Meet. Mas sua presença significa muito! ✨
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="form-group">
+            <label class="form-label" for="nome">Seu nome completo</label>
+            <div class="input-wrap">
+              <input
+                type="text"
+                id="nome"
+                placeholder="Ex: Maria Silva"
+                autocomplete="name"
+                maxlength="60"
+                inputmode="text"
+              />
+            </div>
+          </div>
+
+          <button
+            class="btn btn-primary"
+            id="btnConfirmar"
+            onclick="confirmar()"
+          >
+            <div class="spinner"></div>
+            <span class="btn-label">✅ Confirmar presença</span>
+          </button>
+
+          <button class="btn btn-secondary" onclick="naoVai()">
+            Não poderei comparecer
+          </button>
+        </div>
+      </div>
+
+      <div class="page-footer">
+        Feito com 💙 por Daniel Cardeal · UFC · 2026
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+     TELA 2 — CONFIRMADO
+════════════════════════════════════════ -->
+    <div class="screen" id="tela2">
+      <div class="confirm-card">
+        <div class="confirm-bar"></div>
+        <div class="confirm-body">
+          <span class="confirm-emoji">🎓</span>
+          <h2 class="confirm-title">Presença <span>confirmada!</span></h2>
+          <p class="confirm-name" id="confirmNome">
+            Obrigado por confirmar sua presença!
+          </p>
+
+          <div class="confirm-info-box">
+            <div class="confirm-info-title">Lembre-se da data</div>
+            <div class="confirm-row">
+              <div class="confirm-icon">📅</div>
+              <div>
+                <span class="confirm-sub-label">Data</span>
+                <div class="confirm-value">
+                  Segunda-feira, 06 de julho de 2026
+                </div>
+              </div>
+            </div>
+            <div class="confirm-row">
+              <div class="confirm-icon">🕕</div>
+              <div>
+                <span class="confirm-sub-label">Horário</span>
+                <div class="confirm-value">18h03</div>
+              </div>
+            </div>
+            <div class="confirm-row">
+              <div class="confirm-icon">📍</div>
+              <div>
+                <span class="confirm-sub-label">Local</span>
+                <div class="confirm-value">
+                  Bloco de Sistemas e Mídias Digitais · UFC Campus do Pici ·
+                  Sala 01
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="confirm-note">
+            Sua confirmação foi registrada com sucesso. 🙏<br /><br />
+            <strong>Até lá!</strong> Qualquer dúvida, fala comigo diretamente.
+            😊
+          </p>
+        </div>
+      </div>
+
+      <div class="page-footer">
+        Feito com 💙 por Daniel Cardeal · UFC · 2026
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+     TELA 3 — NÃO VAI
+════════════════════════════════════════ -->
+    <div class="screen" id="tela3">
+      <div
+        class="confirm-card"
+        style="
+          box-shadow:
+            0 4px 6px rgba(0, 0, 0, 0.04),
+            0 24px 56px rgba(100, 116, 139, 0.1);
+        "
+      >
+        <div
+          class="confirm-bar"
+          style="background: linear-gradient(90deg, #94a3b8 0%, #cbd5e1 100%)"
+        ></div>
+        <div class="confirm-body">
+          <span class="confirm-emoji">😢</span>
+          <h2 class="confirm-title" style="color: var(--dark)">Que pena!</h2>
+          <p class="confirm-name">
+            Tudo bem, entendo. Espero que possamos nos ver em breve!
+          </p>
+
+          <div
+            class="confirm-info-box"
+            style="background: #f8fafc; border-color: #e2e8f0"
+          >
+            <div class="confirm-info-title" style="color: var(--muted)">
+              Caso mude de ideia
+            </div>
+            <div class="confirm-row">
+              <div class="confirm-icon">📅</div>
+              <div>
+                <span class="confirm-sub-label">Data</span>
+                <div class="confirm-value">
+                  Segunda-feira, 06 de julho de 2026 · 18h30
+                </div>
+              </div>
+            </div>
+            <div class="confirm-row">
+              <div class="confirm-icon">📍</div>
+              <div>
+                <span class="confirm-sub-label">Local</span>
+                <div class="confirm-value">
+                  Bloco de Sistemas e Mídias Digitais · UFC Campus do Pici ·
+                  Sala 01
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="confirm-note">
+            Tentarei transmitir ao vivo pelo <strong>Google Meet</strong>. Fique
+            de olho no aviso! 👀
+          </p>
+
+          <button
+            class="btn btn-secondary"
+            onclick="voltarTela1()"
+            style="margin-top: 4px"
+          >
+            ← Voltar e confirmar presença
+          </button>
+        </div>
+      </div>
+
+      <div class="page-footer">Feito por Daniel Cardeal · UFC · 2026</div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+      const FORMSPREE_ID = "xlgkvywj";
+
+      function mostrarToast(msg) {
+        const t = document.getElementById("toast");
+        t.innerHTML = msg;
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 3500);
+      }
+
+      function escapar(str) {
+        return str
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
+
+      function irParaTela(id) {
+        document
+          .querySelectorAll(".screen")
+          .forEach((s) => s.classList.remove("active"));
+        document.getElementById(id).classList.add("active");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function voltarTela1() {
+        irParaTela("tela1");
+      }
+
+      async function enviarFormspree(nome, status) {
+        try {
+          await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+            body: JSON.stringify({
+              nome,
+              status,
+              _subject: `${status === "confirmado" ? "✅" : "❌"} ${nome} — ${status}`,
+              horario: new Date().toLocaleString("pt-BR"),
+            }),
+          });
+        } catch {
+          /* falha silenciosa */
+        }
+      }
+
+      async function confirmar() {
+        const input = document.getElementById("nome");
+        const nome = input.value.trim();
+        const btn = document.getElementById("btnConfirmar");
+
+        if (nome.length < 2) {
+          mostrarToast("⚠️ Por favor, insira seu nome completo.");
+          input.focus();
+          return;
+        }
+
+        btn.classList.add("loading");
+        await enviarFormspree(nome, "confirmado");
+        btn.classList.remove("loading");
+
+        document.getElementById("confirmNome").textContent =
+          `Obrigado, ${nome.split(" ")[0]}! Até lá. 👋`;
+
+        irParaTela("tela2");
+      }
+
+      async function naoVai() {
+        const input = document.getElementById("nome");
+        const nome = input.value.trim();
+        if (nome.length >= 2) {
+          await enviarFormspree(nome, "não vai comparecer");
+        }
+        irParaTela("tela3");
+      }
+
+      document.getElementById("nome").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") confirmar();
+      });
+    </script>
+  </body>
+</html>
